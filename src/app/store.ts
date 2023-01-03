@@ -13,7 +13,12 @@ import {
     // tasksWatcherSaga
 } from '../features/TodolistsList/tasks-sagas';
 import {appWatcherSaga} from './app-sagas';
-import {fetchTodolistsWorkerSaga, todolistWatcherSaga} from '../features/TodolistsList/todolists-sagas';
+import {
+    addTodolistWorkerSaga, changeTodolistTitleWorkerSaga,
+    fetchTodolistsWorkerSaga,
+    removeTodolistWorkerSaga,
+    todolistWatcherSaga
+} from '../features/TodolistsList/todolists-sagas';
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
@@ -37,7 +42,10 @@ function* rootWatcher() {
     yield takeEvery('TASKS/FETCH-TASKS', fetchTasksWorkerSaga);
     yield takeEvery('TASKS/REMOVE-TASK', removeTaskWorkerSaga);
     yield takeEvery('TASKS/ADD-TASK-TO-TODOLIST', addTaskWorkerSaga);
-    yield takeEvery('TODOLIST/FETCH-TODOLIST', fetchTodolistsWorkerSaga);
+    yield takeEvery('TODOLISTS/FETCH-TODOLIST', fetchTodolistsWorkerSaga);
+    yield takeEvery('TODOLISTS/REMOVE-TODOLIST', removeTodolistWorkerSaga);
+    yield takeEvery('TODOLISTS/ADD_TODOLIST', addTodolistWorkerSaga);
+    yield takeEvery('TODOLISTS/CHANGE_TODOLIST', changeTodolistTitleWorkerSaga);
     yield appWatcherSaga();
     // yield todolistWatcherSaga();
     // yield tasksWatcherSaga();
