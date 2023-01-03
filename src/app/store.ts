@@ -6,19 +6,15 @@ import {appReducer} from './app-reducer'
 import {authReducer} from '../features/Login/auth-reducer';
 import createSagaMiddleware from 'redux-saga';
 import {takeEvery} from 'redux-saga/effects'
-import {
-    addTaskWorkerSaga,
-    fetchTasksWorkerSaga,
-    removeTaskWorkerSaga,
-    // tasksWatcherSaga
-} from '../features/TodolistsList/tasks-sagas';
+import {addTaskWorkerSaga, fetchTasksWorkerSaga, removeTaskWorkerSaga,} from '../features/TodolistsList/tasks-sagas';
 import {appWatcherSaga} from './app-sagas';
 import {
-    addTodolistWorkerSaga, changeTodolistTitleWorkerSaga,
+    addTodolistWorkerSaga,
+    changeTodolistTitleWorkerSaga,
     fetchTodolistsWorkerSaga,
-    removeTodolistWorkerSaga,
-    todolistWatcherSaga
+    removeTodolistWorkerSaga
 } from '../features/TodolistsList/todolists-sagas';
+import {loginWorkerSaga, logoutWorkerSaga} from '../features/Login/auth-sagas';
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
@@ -46,6 +42,8 @@ function* rootWatcher() {
     yield takeEvery('TODOLISTS/REMOVE-TODOLIST', removeTodolistWorkerSaga);
     yield takeEvery('TODOLISTS/ADD_TODOLIST', addTodolistWorkerSaga);
     yield takeEvery('TODOLISTS/CHANGE_TODOLIST', changeTodolistTitleWorkerSaga);
+    yield takeEvery('AUTH/LOGIN', loginWorkerSaga);
+    yield takeEvery('AUTH/LOGOUT', logoutWorkerSaga);
     yield appWatcherSaga();
     // yield todolistWatcherSaga();
     // yield tasksWatcherSaga();

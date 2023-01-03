@@ -21,7 +21,6 @@ export function* fetchTasksWorkerSaga(action: ReturnType<typeof fetchTasks>) {
 export const fetchTasks = (todolistId: string) => ({type: 'TASKS/FETCH-TASKS', payload: {todolistId}});
 
 export function* removeTaskWorkerSaga(action: ReturnType<typeof removeTaskFromTodolist>) {
-    debugger
     const {todolistId, taskId} = action.payload
     const res = yield call(todolistsAPI.deleteTask, todolistId, taskId);
 
