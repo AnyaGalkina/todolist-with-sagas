@@ -1,6 +1,3 @@
-import {Dispatch} from 'redux'
-import {SetAppErrorActionType, SetAppStatusActionType} from '../../app/app-reducer'
-
 const initialState: InitialStateType = {
     isLoggedIn: false
 }
@@ -15,13 +12,11 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
 }
 
 // actions
-
 export const setIsLoggedInAC = (value: boolean) =>
     ({type: 'login/SET-IS-LOGGED-IN', value} as const)
 
 
 // types
-
 type ActionsType = ReturnType<typeof setIsLoggedInAC>
 type InitialStateType = {
     isLoggedIn: boolean

@@ -1,24 +1,24 @@
 import {setAppStatusAC} from '../../app/app-reducer';
 import {authAPI, LoginParamsType, ResponseType} from '../../api/todolists-api';
-import {handleServerNetworkErrorSagaWorker} from '../../utils/error-utils';
+import {handleServerAppErrorSagaWorker, handleServerNetworkErrorSagaWorker} from '../../utils/error-utils';
 import {setIsLoggedInAC} from './auth-reducer';
-import { put, call, takeEvery} from 'redux-saga/effects'
+import {put, call, takeEvery} from 'redux-saga/effects'
 import {AxiosResponse} from 'axios';
 
 export function* loginWorkerSaga(action: ReturnType<typeof loginSagaAC>) {
     const {data} = action.payload;
     yield put(setAppStatusAC('loading'));
     try {
-        const res: AxiosResponse<ResponseType<{userId?: number}>> = yield call(authAPI.login, data);
+        const res: AxiosResponse<ResponseType<{ userId?: number }>> = yield call(authAPI.login, data);
 
         if (res.data.resultCode === 0) {
             yield put(setIsLoggedInAC(true))
             yield put(setAppStatusAC('succeeded'))
         } else {
-            // handleServerAppError(res.data, dispatch)
+            return handleServerAppErrorSagaWorker(res.data)
         }
     } catch (error) {
-        handleServerNetworkErrorSagaWorker(error)
+        return handleServerNetworkErrorSagaWorker(error)
     }
 }
 
@@ -36,7 +36,7 @@ export function* logoutWorkerSaga() {
             yield put(setAppStatusAC('succeeded'))
         }
     } catch (error) {
-        handleServerNetworkErrorSagaWorker(error)
+        return handleServerNetworkErrorSagaWorker(error)
     }
 }
 
