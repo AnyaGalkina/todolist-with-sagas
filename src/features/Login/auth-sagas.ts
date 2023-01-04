@@ -42,7 +42,7 @@ export function* logoutWorkerSaga() {
 
 export const logoutSagaAC = () => ({type: 'AUTH/LOGOUT'})
 
-export function* appWatcherSaga() {
+export function* authWatcherSaga() {
     yield takeEvery('AUTH/LOGIN', loginWorkerSaga);
     yield takeEvery('AUTH/LOGOUT', logoutWorkerSaga);
 }
